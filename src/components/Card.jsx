@@ -1,4 +1,6 @@
 export default function Card({ jobName, jobDescription, id, deleteTodo }) {
+    console.log('Card')
+
     return (
         <div className="card w-70 border-2 p-4 m-4 rounded-lg text-center">
             <h2 className="text-black text-3xl mb-2">{jobName}</h2><hr />

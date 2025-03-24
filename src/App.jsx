@@ -1,5 +1,7 @@
-import { use, useEffect, useReducer, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import Card from './components/Card'
+
+const CardMemo = React.memo(Card)
 
 const ACTIONS = {
   ADD_TODO: 'add-todo',
@@ -52,13 +54,12 @@ function App() {
     dispatch({ type: ACTIONS.ADD_TODO, payload: data })
   }
 
-  async function deleteTodo(id) {
+  const deleteTodo = useCallback(async (id) => {
     await fetch(`https://67da34cd35c87309f52b67a2.mockapi.io/job/${id}`, {
       method: 'DELETE'
     })
-
     dispatch({ type: ACTIONS.DELETE_TODO, payload: id })
-  }
+  }, [])
 
   return (
     <>
@@ -73,7 +74,7 @@ function App() {
         <div className='w-3/4 overflow-y-auto h-screen'>
           <div className='flex flex-wrap justify-center'>
             {todos.map(todo => {
-              return <Card key={todo.id} jobName={todo.jobName} jobDescription={todo.description} id={todo.id} deleteTodo={deleteTodo} />
+              return <CardMemo key={todo.id} jobName={todo.jobName} jobDescription={todo.description} id={todo.id} deleteTodo={deleteTodo}/>
             })}
           </div>
         </div>
